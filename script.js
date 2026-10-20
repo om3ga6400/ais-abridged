@@ -6,22 +6,32 @@ const n = new Character();
 const z = new Character("Zebede");
 const a = new Character("Axl");
 const p = new Character("Paxton");
+const j = new Character("Jackson");
+const q = new Character("???");
 
 const scene1 = new Scene("scene1", {
-  background: "backgrounds/State_Office_Building.jpg",
+  background: "backgrounds/1.jpg",
 });
 
 const scene2 = new Scene("scene2", {
-  background: "backgrounds/Inside_Office.jpg",
+  background: "backgrounds/2.jpg",
 });
 
 const scene3 = new Scene("scene3", {
-  background: "backgrounds/Black.webp",
+  background: "backgrounds/3.webp",
   presentation: "chapter",
 });
 
 const scene4 = new Scene("scene4", {
-  background: "backgrounds/Inside_Office.jpg",
+  background: "backgrounds/4.jpg",
+});
+
+const scene5 = new Scene("scene5", {
+  background: "backgrounds/5.png",
+});
+
+const scene6 = new Scene("scene6", {
+  background: "backgrounds/3.webp",
 });
 
 script.addScene(scene1);
@@ -93,7 +103,59 @@ n.say("Axl and Zebede punch Paxton at the same time, sending him to a different 
 script.addScene(scene3);
 
 scene3.add(n);
-n.say("Chapter 1: WacDonalds");
+n.say("WHY DO I SIT NEXT TO LANDON AND COLLIN");
+
+script.addScene(scene4);
+
+scene4.add(j);
+j.say("WHAT THE F### JUST HAPPENED");
+
+scene4.add(n);
+n.say("Jackson had actually seen the entire fight, after completing his shift he went back since he forgot his wallet at his desk");
+
+j.say("I'M NOT STAYING HERE ANYMORE");
+
+n.say("Jackson ran out of the building as fast as possible making sure to stay near the wall so paxton or anyone else didn't see");
+
+script.addScene(scene5);
+
+scene5.add(p);
+p.say("what an annoyance");
+
+scene5.add(n);
+n.say("Zebede crawls on the road trying to get away");
+
+p.say("do you think you can get away");
+
+n.say("Paxton puts his arm up summoning a black void as big as the entire building on the road");
+
+n.say("Zebede looks up in terror");
+
+scene5.add(z);
+z.say("h-h-h-he-help me");
+
+p.say("no ones here to help you");
+
+scene5.add(q);
+q.say("STOP!!!");
+
+n.say("Paxton looks right at the new voice");
+
+p.say("JACKSON?!");
+
+scene5.add(j);
+j.say("Stop I won't let you kill him");
+
+p.say("Paxton:hahaa you think you can stop me you dont have any idea what I am, and you don't even have an ability");
+
+j.say("are you sure about that");
+
+n.say("Jackson snaps");
+n.say("Paxton eyes light up as he sees a bright light grow fast");
+
+j.say("Its time...for you to d#e");
+
+script.addScene(scene6);
 
 const engine = new VNEngine({
   script: script,
