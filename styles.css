@@ -72,3 +72,23 @@ body {
 .vn-dialogue-text {
   font-size: 1.25rem;
 }
+
+#game-container.chapter-card .vn-dialogue-box {
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+#game-container.chapter-card .vn-speaker-name {
+  display: none;
+}
+
+#game-container.chapter-card .vn-dialogue-text {
+  font-size: 5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+}
