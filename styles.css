@@ -132,7 +132,6 @@ body {
   animation: shake 0.5s ease-out;
 }
 
-/* Screen flash effect, triggered by [flash] at the start of a line */
 @keyframes flash {
   0% {
     opacity: 1;
