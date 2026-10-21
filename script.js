@@ -149,7 +149,7 @@ p.say("JACKSON?!");
 scene5.add(j);
 j.say("Stop I won't let you kill him");
 
-p.say("Paxton:hahaa you think you can stop me you dont have any idea what I am, and you don't even have an ability");
+p.say("hahaa you think you can stop me you dont have any idea what I am, and you don't even have an ability");
 
 j.say("are you sure about that");
 
