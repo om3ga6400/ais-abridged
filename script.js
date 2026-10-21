@@ -72,13 +72,13 @@ scene2.add(p);
 p.say("What business do you have");
 
 n.say("Zebede dodges the question and runs at paxton");
-n.say("Zebede tries to punch paxton but paxton grabs ahold of his arm and throws him to the ground");
+n.say("[shake]Zebede tries to punch paxton but paxton grabs ahold of his arm and throws him to the ground");
 n.say("Paxton steps on his back and starts to pull his arms up breaking them");
 
 scene2.add(z);
 z.say("COME HELP ME AXL");
 
-n.say("Axl runs up and punches paxton in the face and grabbing zebede in the process");
+n.say("[shake]Axl runs up and punches paxton in the face and grabbing zebede in the process");
 
 scene2.add(a);
 a.say("stop being so reckless");
@@ -86,7 +86,7 @@ a.say("stop being so reckless");
 n.say("Zebede ignores axl and goes in for another punch and misses");
 n.say("Axl decides to run behind them and try to hit paxton in the back");
 n.say("Paxton turns around but sees no one as axl run in front instead");
-n.say("Before he can react axl manages to punch paxton in the face");
+n.say("[shake]Before he can react axl manages to punch paxton in the face");
 n.say("Paxton gets sent through a wall and starts to walk towards the 2");
 n.say("Zebedee charges at Paxton while Axl tries to go behind him to hit Paxton from both sides");
 n.say("Paxton stops moving, closes his eyes, and holds his hands out");
@@ -100,8 +100,8 @@ n.say("Zebede continues to charge forward before breaking through the voids");
 p.say("What? That's impossible!");
 
 n.say("Axl comes through the opening as well and they start to jump Paxton");
-n.say("Paxton falls to the ground and Zebede kicks him in the stomach");
-n.say("Axl and Zebede punch Paxton at the same time, sending him to a different building");
+n.say("[shake]Paxton falls to the ground and Zebede kicks him in the stomach");
+n.say("[shake]Axl and Zebede punch Paxton at the same time, sending him to a different building");
 
 script.addScene(scene3);
 
@@ -154,7 +154,7 @@ p.say("Paxton:hahaa you think you can stop me you dont have any idea what I am, 
 j.say("are you sure about that");
 
 n.say("Jackson snaps");
-n.say("Paxton eyes light up as he sees a bright light grow fast");
+n.say("[flash]Paxton eyes light up as he sees a bright light grow fast");
 
 j.say("Its time...for you to d#e");
 
@@ -182,10 +182,18 @@ const engine = new VNEngine({
   startScene: "scene1",
   renderer: {
     assetsDirectory: "assets",
+    screenEffects: {
+      shake(container) {
+        container.classList.add("shake");
+      },
+      flash(container) {
+        container.classList.add("flash");
+      },
+    },
   },
 });
 
-// Vibe code below im sorry i dont know how to do this
+// Click anywhere on the screen to advance
 const container = document.querySelector("#game-container");
 const dialogueBox = container.querySelector(".vn-dialogue-box");
 
