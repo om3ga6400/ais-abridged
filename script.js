@@ -274,6 +274,49 @@ n.say("Paxton engulfs the whole world in black the only thing that Jackson can s
 
 p.say("[blackflash]this is.. The 4th dimension", { effect: "typewriter" });
 
+script.addScene(scene9);
+
+scene9.add(j);
+scene9.add(p);
+scene9.add(n);
+
+j.say("What?");
+
+p.say("there's no escaping this your going to d#e");
+
+j.say("are you trapped in here with me?");
+
+p.say("no i can leave at any time but I'm going to k#ll you here.");
+
+n.say("Jackson has had a restriction on his ability the whole time ever since the fight started his restriction “I cannot attack humans with my ability” After making this restriction he asked for one thing in return “everytime i use my ability it goes first");
+
+j.say("I have one final move");
+
+p.say("and what's that? Well it doesn't matter the safest bet is to use my ultima");
+p.say("Ultima something stupid");
+
+j.say("Vow Supernova");
+
+p.say("That won't work my ability will activate first since i used it first");
+
+j.say("Are you sure?");
+
+p.say("what?");
+
+j.say("my restriction makes it so I can only attack aliens but in return my ability always goes off first");
+
+p.say("WHAT");
+
+n.say("A gigantic explosion the size of over 100 galaxys happens in the middle of the fight");
+
+p.say("AHHHHHHHHHHH");
+
+n.say("Paxtons ultima happens and jackson disappears");
+n.say("The explosion from jackson manages to destroy the entire 4th dimension paxton made (Paxton can make multiple) even though it was infinite jackson managed to destroy it all");
+n.say("Paxton walks slowly in the city with Smith Jones");
+
+p.say("THAT BI### GOT RID OF MY WHOLE ARM");
+
 const engine = new VNEngine({
   script: script,
   container: "#game-container",
