@@ -196,7 +196,6 @@ script.addScene(scene6);
 
 scene6.add(bs, { position: { x: "50%", y: "30%" } });
 
-bs.say("ㅤ");
 bs.image = "gay/1.png";
 bs.say("ㅤ");
 bs.image = "gay/2.png";
