@@ -9,6 +9,8 @@ const p = new Character("Paxton");
 const j = new Character("Jackson");
 const q = new Character("???");
 
+const bs = new Character();
+
 const scene1 = new Scene("scene1", {
   background: "backgrounds/1.jpg",
 });
@@ -32,6 +34,7 @@ const scene5 = new Scene("scene5", {
 
 const scene6 = new Scene("scene6", {
   background: "backgrounds/3.webp",
+  presentation: "chapter",
 });
 
 script.addScene(scene1);
@@ -157,6 +160,22 @@ j.say("Its time...for you to d#e");
 
 script.addScene(scene6);
 
+// basicly using char sprites so that i dont have to do images manually
+
+scene6.add(bs, { position: { x: "50%", y: "30%" } });
+
+bs.say("ㅤ");
+bs.image = "gay/1.png";
+bs.say("ㅤ");
+bs.image = "gay/2.png";
+bs.say("ㅤ");
+bs.image = "gay/3.png";
+bs.say("ㅤ");
+bs.image = "gay/4.png";
+bs.say("ㅤ");
+bs.image = "gay/5.png";
+bs.say("ㅤ");
+
 const engine = new VNEngine({
   script: script,
   container: "#game-container",
@@ -164,4 +183,13 @@ const engine = new VNEngine({
   renderer: {
     assetsDirectory: "assets",
   },
+});
+
+// Vibe code below im sorry i dont know how to do this
+const container = document.querySelector("#game-container");
+const dialogueBox = container.querySelector(".vn-dialogue-box");
+
+container.addEventListener("click", (e) => {
+  if (dialogueBox.contains(e.target)) return;
+  dialogueBox.click();
 });
