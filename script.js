@@ -259,7 +259,15 @@ n.say("Jackson coughs up blood and gets sent through 2 buildings", { effect: "ty
 
 p.say("you know you shouldn't stand still in a fight", { effect: "typewriter" });
 
-n.say("Smith Jones throws a knife at jackson. jackson tries to dodge but instead he switches locations with the knife, jackson gets punched again but paxton appears behind him and kicks him in the back, jacksons spine breaks and he manages to doge the next two hits jackson then snaps his fingers Smith Jones switches locations with a passerby k#lling the innocent person and paxton barely dodges but gets slightly burnt jackson then snaps 40 times in a single second paxton gets burnt badly and Smith jones switches with a rock behind jackson with a katana in hand he stabs through jackson", { effect: "typewriter" });
+n.say("Smith Jones throws a knife at jackson.", { effect: "typewriter" });
+n.say("jackson tries to dodge but instead he switches locations with the knife", { effect: "typewriter" });
+n.say("jackson gets punched again but paxton appears behind him and kicks him in the back", { effect: "typewriter" });
+n.say("jacksons spine breaks and he manages to doge the next two hits jackson then snaps his fingers", { effect: "typewriter" });
+n.say("Smith Jones switches locations with a passerby k#lling the innocent person", { effect: "typewriter" });
+n.say("paxton barely dodges but gets slightly burnt", { effect: "typewriter" });
+n.say("jackson then snaps 40 times in a single second", { effect: "typewriter" });
+n.say("paxton gets burnt badly", { effect: "typewriter" });
+n.say("Smith jones switches with a rock behind jackson with a katana in hand he stabs through jackson", { effect: "typewriter" });
 
 s.say("Give up.. You can't win", { effect: "typewriter" });
 
