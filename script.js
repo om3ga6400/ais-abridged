@@ -1,5 +1,11 @@
 const { Script, Scene, Character, VNEngine } = SimpleVN;
 
+const _say = Character.prototype.say;
+Character.prototype.say = function (t, o) {
+  if (this !== n && this !== bs) t = `"${t}"`;
+  return _say.call(this, t, o);
+};
+
 const script = new Script();
 
 const n = new Character();
