@@ -300,7 +300,7 @@ p.say("no i can leave at any time but I'm going to k#ll you here.", { effect: "t
 
 n.say("Jackson has had a restriction on his ability the whole time ever since the fight started his restriction “I cannot attack humans with my ability” After making this restriction he asked for one thing in return “everytime i use my ability it goes first”", { effect: "typewriter" });
 
-j.say("I have one final move [flash]", { effect: "typewriter" });
+j.say("I have one final move", { effect: "typewriter" });
 
 p.say("and what's that? Well it doesn't matter the safest bet is to use my ultima", { effect: "typewriter" });
 p.say("Ultima something stupid [blackflash]", { effect: "typewriter" });
