@@ -1,1 +1,432 @@
-"use strict";var SimpleVN=(()=>{var g=Object.defineProperty;var L=Object.getOwnPropertyDescriptor;var M=Object.getOwnPropertyNames;var I=Object.prototype.hasOwnProperty;var o=(s,e)=>g(s,"name",{value:e,configurable:!0});var P=(s,e)=>{for(var t in e)g(s,t,{get:e[t],enumerable:!0})},O=(s,e,t,i)=>{if(e&&typeof e=="object"||typeof e=="function")for(let n of M(e))!I.call(s,n)&&n!==t&&g(s,n,{get:()=>e[n],enumerable:!(i=L(e,n))||i.enumerable});return s};var k=s=>O(g({},"__esModule",{value:!0}),s);var z={};P(z,{CancellablePromise:()=>c,Character:()=>y,DOMRenderer:()=>l,Scene:()=>v,Script:()=>S,StateManager:()=>d,VNEngine:()=>m,fadeIn:()=>p,fadeOut:()=>T,typewriter:()=>f});var E=class E{constructor(e=null){this._state={variables:{},_currentSceneId:e,sceneHistory:[]}}get state(){return{...this._state}}setVariable(e,t){this._state.variables[e]=t}getVariable(e){return this._state.variables[e]}get allVariables(){return{...this._state.variables}}set currentSceneId(e){this._state._currentSceneId&&this._state.sceneHistory.push(this._state._currentSceneId),this._state._currentSceneId=e}get currentSceneId(){return this._state._currentSceneId}get sceneHistory(){return[...this._state.sceneHistory]}clearHistory(){this._state.sceneHistory=[]}};o(E,"StateManager");var d=E;var x=class x extends Promise{constructor(t,i){let n,r;super((a,h)=>{n=a,r=h,t(a,h)});this._cancelled=!1;this._onCancel=i,this._resolve=n,this._reject=r}get cancelled(){return this._cancelled}set cancelled(t){this._cancelled=t}cancel(t){this._cancelled||(this._cancelled=!0,this._onCancel?.(),this._resolve(t??void 0))}};o(x,"CancellablePromise");var c=x;function f(s,e,t={}){let n=1e3/(t.speed||50),r=null,a=0;s.textContent="";let h=new c(A=>{r=setInterval(()=>{h.cancelled||(a<e.length?(s.textContent+=e[a],a++):(r&&(clearInterval(r),r=null),t.onComplete?.(),A()))},n)},()=>{r&&(clearInterval(r),r=null),s.textContent=e,t.onComplete?.()});return h}o(f,"typewriter");function p(s,e={}){let t=e.duration||500,i=null;return new c(r=>{s.style.opacity="0",s.style.transition=`opacity ${t}ms ease-in`,s.style.opacity="1",setTimeout(()=>{r(),e.onComplete?.()},t)},()=>{i&&clearTimeout(i),s.style.transition="none",s.style.opacity="1",e.onComplete?.()})}o(p,"fadeIn");function T(s,e={}){let t=e.duration||500,i=null;return new c(r=>{s.style.opacity="1",s.style.transition=`opacity ${t}ms ease-out`,s.style.opacity="0",setTimeout(()=>{r(),e.onComplete?.()},t)},()=>{i&&clearTimeout(i),s.style.transition="none",s.style.opacity="0",e.onComplete?.()})}o(T,"fadeOut");var u=class u{constructor(e,t,i={}){this.currentActionIndex=0;this.isProcessing=!1;this.characterElements=new Map;this.currentAnimation=null;this.screenEffectClasses=[];this.screenEffectAnimationEndListener=null;let n;if(typeof e=="string"){if(n=document.querySelector(e),!n)throw new Error(`Container element "${e}" not found`)}else n=e;this.container=n,this.engine=t,this.options=i,this.setupDOM(),this.setupEventListeners()}setupDOM(){this.backgroundLayer=document.createElement("div"),this.backgroundLayer.className="vn-background-layer",this.characterLayer=document.createElement("div"),this.characterLayer.className="vn-character-layer",this.dialogueBox=document.createElement("div"),this.dialogueBox.className="vn-dialogue-box",this.speakerName=document.createElement("div"),this.speakerName.className="vn-speaker-name",this.dialogueText=document.createElement("div"),this.dialogueText.className="vn-dialogue-text",this.dialogueBox.appendChild(this.speakerName),this.dialogueBox.appendChild(this.dialogueText),this.container.appendChild(this.backgroundLayer),this.container.appendChild(this.characterLayer),this.container.appendChild(this.dialogueBox)}setupEventListeners(){this.engine.on("sceneChange",async()=>{await this.renderCurrentScene()}),this.dialogueBox.addEventListener("click",async()=>{if(this.currentAnimation){this.currentAnimation.cancel(),this.currentAnimation=null,this.isProcessing=!1;return}this.isProcessing||await this.nextAction()})}async renderCurrentScene(){let e=this.engine.currentScene;if(!e)return;this.currentActionIndex=0,this.container.classList.toggle("chapter-card",e.options.presentation==="chapter");let t=e.options;if(t.background){let i=this.resolveAssetPath(t.background);this.backgroundLayer.style.backgroundImage=`url(${i})`,this.backgroundLayer.style.backgroundSize="cover",this.backgroundLayer.style.backgroundPosition="center"}this.characterLayer.innerHTML="",this.characterElements.clear(),await this.processActions()}async processActions(){let e=this.engine.currentScene;if(!e)return;let t=e.actions;if(this.currentActionIndex>=t.length)return;this.isProcessing=!0;let i=t[this.currentActionIndex];await this.processAction(i),this.isProcessing=!1}async processAction(e){switch(e.type){case"show":if(e.character)return this.showCharacter(e.character,e.position,e.size),this.nextAction();break;case"hide":if(e.character)return this.hideCharacter(e.character),this.nextAction();break;case"setImage":if(e.character&&e.image)return this.setCharacterImage(e.character,e.image),this.nextAction();break;case"dialogue":if(e.character&&e.text)return this.displayDialogue(e.character,e.text,e.options);break}}showCharacter(e,t,i){let n=this.characterElements.get(e);if(!n){n=document.createElement("div"),n.className="vn-character",n.dataset.characterName=e.name,n.style.display="none",n.style.position="absolute";let r=e.image;if(r){let a=document.createElement("img");a.src=this.resolveAssetPath(r),a.alt=e.name,a.style.width="100%",a.style.height="100%",a.style.objectFit="contain",n.appendChild(a)}this.characterLayer.appendChild(n),this.characterElements.set(e,n)}if(t){let{x:r,y:a}=this.resolvePosition(t);n.style.left=r,n.style.bottom=a,r.endsWith("%")?n.style.transform="translateX(-50%)":n.style.transform=""}if(i){let{width:r,height:a}=this.resolveSize(i);r&&(n.style.width=r),a&&(n.style.height=a)}n.style.display="block",p(n)}hideCharacter(e){let t=this.characterElements.get(e);t&&(t.style.display="none")}setCharacterImage(e,t){let i=this.characterElements.get(e);if(i){let n=i.querySelector("img");if(n)n.src=this.resolveAssetPath(t);else{let r=document.createElement("img");r.src=this.resolveAssetPath(t),r.alt=e.name,r.style.width="100%",r.style.height="100%",r.style.objectFit="contain",i.appendChild(r)}}}async displayDialogue(e,t,i){this.speakerName.textContent=e.name;let n=t.match(/^\[([\w-]+)\]\s*/),r=n?this.options.screenEffects?.[n[1]]:void 0;r&&n&&(t=t.slice(n[0].length),this.runScreenEffect(r));let a=i?.effect;if(a==="typewriter"){this.dialogueText.textContent="";let h=this.options.typewriterSpeed||50;this.currentAnimation=f(this.dialogueText,t,{speed:h}),await this.currentAnimation,this.currentAnimation=null}else a==="fade"?(this.dialogueText.textContent=t,this.dialogueText.style.opacity="0",this.dialogueText.style.transition="none",this.dialogueText.offsetHeight,this.currentAnimation=p(this.dialogueText),await this.currentAnimation,this.currentAnimation=null):(this.dialogueText.textContent=t,this.dialogueText.style.opacity="1")}runScreenEffect(e){this.screenEffectAnimationEndListener&&(this.container.removeEventListener("animationend",this.screenEffectAnimationEndListener),this.screenEffectAnimationEndListener=null);for(let n of this.screenEffectClasses)this.container.classList.remove(n);this.screenEffectClasses=[],this.container.offsetWidth;let t=new Set(Array.from(this.container.classList));e(this.container),this.screenEffectClasses=Array.from(this.container.classList).filter(n=>!t.has(n));let i=o(()=>{for(let n of this.screenEffectClasses)this.container.classList.remove(n);this.screenEffectClasses=[],this.screenEffectAnimationEndListener=null},"animationEndListener");this.screenEffectAnimationEndListener=i,this.container.addEventListener("animationend",i,{once:!0})}async nextAction(){let e=this.engine.currentScene;if(!e)return;let t=e.actions;if(this.currentActionIndex++,this.currentActionIndex>=t.length){this.engine.next()||(this.dialogueText.textContent="",this.speakerName.textContent="");return}await this.processActions()}resolveAssetPath(e){return e.startsWith("http://")||e.startsWith("https://")||e.startsWith("/")||!this.options.assetsDirectory?e:`${this.options.assetsDirectory.replace(/\/$/,"")}/${e}`}resolvePosition(e){let t;if(typeof e=="string")t=u.NAMED_POSITIONS[e]??{x:"50%",y:"0"};else{let i=o((n,r)=>n===void 0?r:typeof n=="number"?`${n*100}%`:n,"toCSS");t={x:i(e.x,"50%"),y:i(e.y,"0")}}return t.y==="0"&&(t.y=this.dialogueBox.offsetHeight+"px"),t}resolveSize(e){let t=o(i=>i===void 0?void 0:typeof i=="number"?`${i*100}%`:i,"toCSS");return{width:t(e.width),height:t(e.height)}}};o(u,"DOMRenderer"),u.NAMED_POSITIONS={"far-left":{x:"10%",y:"0"},left:{x:"25%",y:"0"},center:{x:"50%",y:"0"},right:{x:"75%",y:"0"},"far-right":{x:"90%",y:"0"},top:{x:"50%",y:"100%"},bottom:{x:"50%",y:"0"},"top-left":{x:"25%",y:"100%"},"top-center":{x:"50%",y:"100%"},"top-right":{x:"75%",y:"100%"},"bottom-left":{x:"25%",y:"0"},"bottom-center":{x:"50%",y:"0"},"bottom-right":{x:"75%",y:"0"}};var l=u;var _=class _{constructor(e){this.listeners=new Map;this._renderer=null;if(this._script=e.script,!this._script.getScene(e.startScene))throw new Error(`Scene with id "${e.startScene}" not found`);this._stateManager=new d(e.startScene),typeof document<"u"&&(this._renderer=new l(e.container,this,e.renderer||{})),this.emitEvent({type:"sceneChange",data:{sceneId:e.startScene}})}get script(){return this._script}get currentScene(){let e=this._stateManager.currentSceneId;if(e)return this._script.getScene(e)}jumpTo(e){if(!this._script.getScene(e))throw new Error(`Scene with id "${e}" not found`);this._stateManager.currentSceneId=e,this.emitEvent({type:"sceneChange",data:{sceneId:e}})}next(){let e=this._stateManager.currentSceneId;if(!e)return!1;let t=this._script.getSceneIndex(e);if(t===-1)return!1;let i=this._script.getSceneByIndex(t+1);return i?(this.jumpTo(i.id),!0):!1}setVariable(e,t){this._stateManager.setVariable(e,t),this.emitEvent({type:"variableChange",data:{key:e,value:t}})}getVariable(e){return this._stateManager.getVariable(e)}get allVariables(){return this._stateManager.allVariables}get stateManager(){return this._stateManager}get renderer(){return this._renderer}on(e,t){this.listeners.has(e)||this.listeners.set(e,new Set),this.listeners.get(e).add(t)}off(e,t){let i=this.listeners.get(e);i&&i.delete(t)}emitEvent(e){let t=this.listeners.get(e.type);t&&t.forEach(i=>i(e))}};o(_,"VNEngine");var m=_;var b=class b{constructor(e,t){this._currentScene=null;this._name=e,this._image=t}get name(){return this._name}get image(){return this._image}set image(e){this._image=e,this._currentScene&&e!==void 0&&this._currentScene.addAction({type:"setImage",character:this,image:e})}get position(){return this._position}set position(e){this._position=e}get size(){return this._size}set size(e){this._size=e}set currentScene(e){this._currentScene=e}say(e,t){if(!this._currentScene)throw new Error(`Character "${this._name}" must be added to a scene before speaking`);this._currentScene.addAction({type:"dialogue",character:this,text:e,options:t})}show(e){if(!this._currentScene)throw new Error(`Character "${this._name}" must be added to a scene before showing`);this._currentScene.addAction({type:"show",character:this,position:e?.position??this._position,size:e?.size??this._size})}hide(){if(!this._currentScene)throw new Error(`Character "${this._name}" must be added to a scene before hiding`);this._currentScene.addAction({type:"hide",character:this})}};o(b,"Character");var y=b,w=class w{constructor(e,t={}){this._actions=[];this.characters=new Set;this._id=e,this._options=t}get id(){return this._id}get options(){return this._options}get actions(){return[...this._actions]}add(e,t){this.characters.add(e),e.currentScene=this,this.addAction({type:"show",character:e,position:t?.position??e.position,size:t?.size??e.size})}addAction(e){this._actions.push(e)}};o(w,"Scene");var v=w,C=class C{constructor(){this._scenes=[];this.sceneMap=new Map}addScene(e){if(this.sceneMap.has(e.id))throw new Error(`Scene with id "${e.id}" already exists`);this._scenes.push(e),this.sceneMap.set(e.id,e)}get scenes(){return[...this._scenes]}getScene(e){return this.sceneMap.get(e)}getSceneByIndex(e){return this._scenes[e]}getSceneIndex(e){return this._scenes.findIndex(t=>t.id===e)}};o(C,"Script");var S=C;return k(z);})();
+"use strict";
+var SimpleVN = (() => {
+  var f = Object.defineProperty;
+  var I = Object.getOwnPropertyDescriptor;
+  var P = Object.getOwnPropertyNames;
+  var O = Object.prototype.hasOwnProperty;
+  var o = (s, e) => f(s, "name", { value: e, configurable: !0 });
+  var k = (s, e) => {
+      for (var t in e) f(s, t, { get: e[t], enumerable: !0 });
+    },
+    z = (s, e, t, i) => {
+      if ((e && typeof e == "object") || typeof e == "function") for (let n of P(e)) !O.call(s, n) && n !== t && f(s, n, { get: () => e[n], enumerable: !(i = I(e, n)) || i.enumerable });
+      return s;
+    };
+  var N = (s) => z(f({}, "__esModule", { value: !0 }), s);
+  var H = {};
+  k(H, { CancellablePromise: () => h, Character: () => v, DOMRenderer: () => d, Scene: () => S, Script: () => E, StateManager: () => l, VNEngine: () => y, fadeIn: () => u, fadeOut: () => L, typewriter: () => m });
+  var x = class x {
+    constructor(e = null) {
+      this._state = { variables: {}, _currentSceneId: e, sceneHistory: [] };
+    }
+    get state() {
+      return { ...this._state };
+    }
+    setVariable(e, t) {
+      this._state.variables[e] = t;
+    }
+    getVariable(e) {
+      return this._state.variables[e];
+    }
+    get allVariables() {
+      return { ...this._state.variables };
+    }
+    set currentSceneId(e) {
+      (this._state._currentSceneId && this._state.sceneHistory.push(this._state._currentSceneId), (this._state._currentSceneId = e));
+    }
+    get currentSceneId() {
+      return this._state._currentSceneId;
+    }
+    get sceneHistory() {
+      return [...this._state.sceneHistory];
+    }
+    clearHistory() {
+      this._state.sceneHistory = [];
+    }
+  };
+  o(x, "StateManager");
+  var l = x;
+  var _ = class _ extends Promise {
+    constructor(t, i) {
+      let n, r;
+      super((a, c) => {
+        ((n = a), (r = c), t(a, c));
+      });
+      this._cancelled = !1;
+      ((this._onCancel = i), (this._resolve = n), (this._reject = r));
+    }
+    get cancelled() {
+      return this._cancelled;
+    }
+    set cancelled(t) {
+      this._cancelled = t;
+    }
+    cancel(t) {
+      this._cancelled || ((this._cancelled = !0), this._onCancel?.(), this._resolve(t ?? void 0));
+    }
+  };
+  o(_, "CancellablePromise");
+  var h = _;
+  function m(s, e, t = {}) {
+    let n = 1e3 / (t.speed || 50),
+      r = null,
+      a = 0;
+    s.textContent = "";
+    let c = new h(
+      (p) => {
+        r = setInterval(() => {
+          c.cancelled || (a < e.length ? ((s.textContent += e[a]), a++) : (r && (clearInterval(r), (r = null)), t.onComplete?.(), p()));
+        }, n);
+      },
+      () => {
+        (r && (clearInterval(r), (r = null)), (s.textContent = e), t.onComplete?.());
+      },
+    );
+    return c;
+  }
+  o(m, "typewriter");
+  function u(s, e = {}) {
+    let t = e.duration || 500,
+      i = null;
+    return new h(
+      (r) => {
+        ((s.style.opacity = "0"),
+          (s.style.transition = `opacity ${t}ms ease-in`),
+          (s.style.opacity = "1"),
+          setTimeout(() => {
+            (r(), e.onComplete?.());
+          }, t));
+      },
+      () => {
+        (i && clearTimeout(i), (s.style.transition = "none"), (s.style.opacity = "1"), e.onComplete?.());
+      },
+    );
+  }
+  o(u, "fadeIn");
+  function L(s, e = {}) {
+    let t = e.duration || 500,
+      i = null;
+    return new h(
+      (r) => {
+        ((s.style.opacity = "1"),
+          (s.style.transition = `opacity ${t}ms ease-out`),
+          (s.style.opacity = "0"),
+          setTimeout(() => {
+            (r(), e.onComplete?.());
+          }, t));
+      },
+      () => {
+        (i && clearTimeout(i), (s.style.transition = "none"), (s.style.opacity = "0"), e.onComplete?.());
+      },
+    );
+  }
+  o(L, "fadeOut");
+  var g = class g {
+    constructor(e, t, i = {}) {
+      this.currentActionIndex = 0;
+      this.isProcessing = !1;
+      this.characterElements = new Map();
+      this.currentAnimation = null;
+      this.screenEffectClasses = [];
+      this.screenEffectAnimationEndListener = null;
+      let n;
+      if (typeof e == "string") {
+        if (((n = document.querySelector(e)), !n)) throw new Error(`Container element "${e}" not found`);
+      } else n = e;
+      ((this.container = n), (this.engine = t), (this.options = i), this.setupDOM(), this.setupEventListeners());
+    }
+    setupDOM() {
+      ((this.backgroundLayer = document.createElement("div")), (this.backgroundLayer.className = "vn-background-layer"), (this.characterLayer = document.createElement("div")), (this.characterLayer.className = "vn-character-layer"), (this.dialogueBox = document.createElement("div")), (this.dialogueBox.className = "vn-dialogue-box"), (this.speakerName = document.createElement("div")), (this.speakerName.className = "vn-speaker-name"), (this.dialogueText = document.createElement("div")), (this.dialogueText.className = "vn-dialogue-text"), this.dialogueBox.appendChild(this.speakerName), this.dialogueBox.appendChild(this.dialogueText), this.container.appendChild(this.backgroundLayer), this.container.appendChild(this.characterLayer), this.container.appendChild(this.dialogueBox));
+    }
+    setupEventListeners() {
+      (this.engine.on("sceneChange", async () => {
+        await this.renderCurrentScene();
+      }),
+        this.dialogueBox.addEventListener("click", async () => {
+          if (this.currentAnimation) {
+            (this.currentAnimation.cancel(), (this.currentAnimation = null), (this.isProcessing = !1));
+            return;
+          }
+          this.isProcessing || (await this.nextAction());
+        }));
+    }
+    async renderCurrentScene() {
+      let e = this.engine.currentScene;
+      if (!e) return;
+      ((this.currentActionIndex = 0), this.container.classList.toggle("chapter-card", e.options.presentation === "chapter"));
+      let t = e.options;
+      if (t.background) {
+        let i = this.resolveAssetPath(t.background);
+        ((this.backgroundLayer.style.backgroundImage = `url(${i})`), (this.backgroundLayer.style.backgroundSize = "cover"), (this.backgroundLayer.style.backgroundPosition = "center"));
+      }
+      ((this.characterLayer.innerHTML = ""), this.characterElements.clear(), await this.processActions());
+    }
+    async processActions() {
+      let e = this.engine.currentScene;
+      if (!e) return;
+      let t = e.actions;
+      if (this.currentActionIndex >= t.length) return;
+      this.isProcessing = !0;
+      let i = t[this.currentActionIndex];
+      (await this.processAction(i), (this.isProcessing = !1));
+    }
+    async processAction(e) {
+      switch (e.type) {
+        case "show":
+          if (e.character) return (this.showCharacter(e.character, e.position, e.size), this.nextAction());
+          break;
+        case "hide":
+          if (e.character) return (this.hideCharacter(e.character), this.nextAction());
+          break;
+        case "setImage":
+          if (e.character && e.image) return (this.setCharacterImage(e.character, e.image), this.nextAction());
+          break;
+        case "dialogue":
+          if (e.character && e.text) return this.displayDialogue(e.character, e.text, e.options);
+          break;
+      }
+    }
+    showCharacter(e, t, i) {
+      let n = this.characterElements.get(e);
+      if (!n) {
+        ((n = document.createElement("div")), (n.className = "vn-character"), (n.dataset.characterName = e.name), (n.style.display = "none"), (n.style.position = "absolute"));
+        let r = e.image;
+        if (r) {
+          let a = document.createElement("img");
+          ((a.src = this.resolveAssetPath(r)), (a.alt = e.name), (a.style.width = "100%"), (a.style.height = "100%"), (a.style.objectFit = "contain"), n.appendChild(a));
+        }
+        (this.characterLayer.appendChild(n), this.characterElements.set(e, n));
+      }
+      if (t) {
+        let { x: r, y: a } = this.resolvePosition(t);
+        ((n.style.left = r), (n.style.bottom = a), r.endsWith("%") ? (n.style.transform = "translateX(-50%)") : (n.style.transform = ""));
+      }
+      if (i) {
+        let { width: r, height: a } = this.resolveSize(i);
+        (r && (n.style.width = r), a && (n.style.height = a));
+      }
+      ((n.style.display = "block"), u(n));
+    }
+    hideCharacter(e) {
+      let t = this.characterElements.get(e);
+      t && (t.style.display = "none");
+    }
+    setCharacterImage(e, t) {
+      let i = this.characterElements.get(e);
+      if (i) {
+        let n = i.querySelector("img");
+        if (n) n.src = this.resolveAssetPath(t);
+        else {
+          let r = document.createElement("img");
+          ((r.src = this.resolveAssetPath(t)), (r.alt = e.name), (r.style.width = "100%"), (r.style.height = "100%"), (r.style.objectFit = "contain"), i.appendChild(r));
+        }
+      }
+    }
+    async displayDialogue(e, t, i) {
+      this.speakerName.textContent = e.name;
+      let n = t.match(/^\[([\w-]+)\]\s*/),
+        r = n ? this.options.screenEffects?.[n[1]] : void 0;
+      r && n && ((t = t.slice(n[0].length)), this.runScreenEffect(r));
+      let a = t.match(/\s*\[([\w-]+)\]\s*$/),
+        c = a ? this.options.screenEffects?.[a[1]] : void 0;
+      c && a && (t = t.slice(0, -a[0].length));
+      let p = o(() => {
+          c && this.runScreenEffect(c);
+        }, "runTrailingScreenEffect"),
+        A = i?.effect;
+      if (A === "typewriter") {
+        this.dialogueText.textContent = "";
+        let M = this.options.typewriterSpeed || 50;
+        ((this.currentAnimation = m(this.dialogueText, t, { speed: M, onComplete: p })), await this.currentAnimation, (this.currentAnimation = null));
+      } else A === "fade" ? ((this.dialogueText.textContent = t), (this.dialogueText.style.opacity = "0"), (this.dialogueText.style.transition = "none"), this.dialogueText.offsetHeight, (this.currentAnimation = u(this.dialogueText)), await this.currentAnimation, (this.currentAnimation = null), p()) : ((this.dialogueText.textContent = t), (this.dialogueText.style.opacity = "1"), p());
+    }
+    runScreenEffect(e) {
+      this.screenEffectAnimationEndListener && (this.container.removeEventListener("animationend", this.screenEffectAnimationEndListener), (this.screenEffectAnimationEndListener = null));
+      for (let n of this.screenEffectClasses) this.container.classList.remove(n);
+      ((this.screenEffectClasses = []), this.container.offsetWidth);
+      let t = new Set(Array.from(this.container.classList));
+      (e(this.container), (this.screenEffectClasses = Array.from(this.container.classList).filter((n) => !t.has(n))));
+      let i = o(() => {
+        for (let n of this.screenEffectClasses) this.container.classList.remove(n);
+        ((this.screenEffectClasses = []), (this.screenEffectAnimationEndListener = null));
+      }, "animationEndListener");
+      ((this.screenEffectAnimationEndListener = i), this.container.addEventListener("animationend", i, { once: !0 }));
+    }
+    async nextAction() {
+      let e = this.engine.currentScene;
+      if (!e) return;
+      let t = e.actions;
+      if ((this.currentActionIndex++, this.currentActionIndex >= t.length)) {
+        this.engine.next() || ((this.dialogueText.textContent = ""), (this.speakerName.textContent = ""));
+        return;
+      }
+      await this.processActions();
+    }
+    resolveAssetPath(e) {
+      return e.startsWith("http://") || e.startsWith("https://") || e.startsWith("/") || !this.options.assetsDirectory ? e : `${this.options.assetsDirectory.replace(/\/$/, "")}/${e}`;
+    }
+    resolvePosition(e) {
+      let t;
+      if (typeof e == "string") t = g.NAMED_POSITIONS[e] ?? { x: "50%", y: "0" };
+      else {
+        let i = o((n, r) => (n === void 0 ? r : typeof n == "number" ? `${n * 100}%` : n), "toCSS");
+        t = { x: i(e.x, "50%"), y: i(e.y, "0") };
+      }
+      return (t.y === "0" && (t.y = this.dialogueBox.offsetHeight + "px"), t);
+    }
+    resolveSize(e) {
+      let t = o((i) => (i === void 0 ? void 0 : typeof i == "number" ? `${i * 100}%` : i), "toCSS");
+      return { width: t(e.width), height: t(e.height) };
+    }
+  };
+  (o(g, "DOMRenderer"), (g.NAMED_POSITIONS = { "far-left": { x: "10%", y: "0" }, left: { x: "25%", y: "0" }, center: { x: "50%", y: "0" }, right: { x: "75%", y: "0" }, "far-right": { x: "90%", y: "0" }, top: { x: "50%", y: "100%" }, bottom: { x: "50%", y: "0" }, "top-left": { x: "25%", y: "100%" }, "top-center": { x: "50%", y: "100%" }, "top-right": { x: "75%", y: "100%" }, "bottom-left": { x: "25%", y: "0" }, "bottom-center": { x: "50%", y: "0" }, "bottom-right": { x: "75%", y: "0" } }));
+  var d = g;
+  var b = class b {
+    constructor(e) {
+      this.listeners = new Map();
+      this._renderer = null;
+      if (((this._script = e.script), !this._script.getScene(e.startScene))) throw new Error(`Scene with id "${e.startScene}" not found`);
+      ((this._stateManager = new l(e.startScene)), typeof document < "u" && (this._renderer = new d(e.container, this, e.renderer || {})), this.emitEvent({ type: "sceneChange", data: { sceneId: e.startScene } }));
+    }
+    get script() {
+      return this._script;
+    }
+    get currentScene() {
+      let e = this._stateManager.currentSceneId;
+      if (e) return this._script.getScene(e);
+    }
+    jumpTo(e) {
+      if (!this._script.getScene(e)) throw new Error(`Scene with id "${e}" not found`);
+      ((this._stateManager.currentSceneId = e), this.emitEvent({ type: "sceneChange", data: { sceneId: e } }));
+    }
+    next() {
+      let e = this._stateManager.currentSceneId;
+      if (!e) return !1;
+      let t = this._script.getSceneIndex(e);
+      if (t === -1) return !1;
+      let i = this._script.getSceneByIndex(t + 1);
+      return i ? (this.jumpTo(i.id), !0) : !1;
+    }
+    setVariable(e, t) {
+      (this._stateManager.setVariable(e, t), this.emitEvent({ type: "variableChange", data: { key: e, value: t } }));
+    }
+    getVariable(e) {
+      return this._stateManager.getVariable(e);
+    }
+    get allVariables() {
+      return this._stateManager.allVariables;
+    }
+    get stateManager() {
+      return this._stateManager;
+    }
+    get renderer() {
+      return this._renderer;
+    }
+    on(e, t) {
+      (this.listeners.has(e) || this.listeners.set(e, new Set()), this.listeners.get(e).add(t));
+    }
+    off(e, t) {
+      let i = this.listeners.get(e);
+      i && i.delete(t);
+    }
+    emitEvent(e) {
+      let t = this.listeners.get(e.type);
+      t && t.forEach((i) => i(e));
+    }
+  };
+  o(b, "VNEngine");
+  var y = b;
+  var w = class w {
+    constructor(e, t) {
+      this._currentScene = null;
+      ((this._name = e), (this._image = t));
+    }
+    get name() {
+      return this._name;
+    }
+    get image() {
+      return this._image;
+    }
+    set image(e) {
+      ((this._image = e), this._currentScene && e !== void 0 && this._currentScene.addAction({ type: "setImage", character: this, image: e }));
+    }
+    get position() {
+      return this._position;
+    }
+    set position(e) {
+      this._position = e;
+    }
+    get size() {
+      return this._size;
+    }
+    set size(e) {
+      this._size = e;
+    }
+    set currentScene(e) {
+      this._currentScene = e;
+    }
+    say(e, t) {
+      if (!this._currentScene) throw new Error(`Character "${this._name}" must be added to a scene before speaking`);
+      this._currentScene.addAction({ type: "dialogue", character: this, text: e, options: t });
+    }
+    show(e) {
+      if (!this._currentScene) throw new Error(`Character "${this._name}" must be added to a scene before showing`);
+      this._currentScene.addAction({ type: "show", character: this, position: e?.position ?? this._position, size: e?.size ?? this._size });
+    }
+    hide() {
+      if (!this._currentScene) throw new Error(`Character "${this._name}" must be added to a scene before hiding`);
+      this._currentScene.addAction({ type: "hide", character: this });
+    }
+  };
+  o(w, "Character");
+  var v = w,
+    C = class C {
+      constructor(e, t = {}) {
+        this._actions = [];
+        this.characters = new Set();
+        ((this._id = e), (this._options = t));
+      }
+      get id() {
+        return this._id;
+      }
+      get options() {
+        return this._options;
+      }
+      get actions() {
+        return [...this._actions];
+      }
+      add(e, t) {
+        (this.characters.add(e), (e.currentScene = this), this.addAction({ type: "show", character: e, position: t?.position ?? e.position, size: t?.size ?? e.size }));
+      }
+      addAction(e) {
+        this._actions.push(e);
+      }
+    };
+  o(C, "Scene");
+  var S = C,
+    T = class T {
+      constructor() {
+        this._scenes = [];
+        this.sceneMap = new Map();
+      }
+      addScene(e) {
+        if (this.sceneMap.has(e.id)) throw new Error(`Scene with id "${e.id}" already exists`);
+        (this._scenes.push(e), this.sceneMap.set(e.id, e));
+      }
+      get scenes() {
+        return [...this._scenes];
+      }
+      getScene(e) {
+        return this.sceneMap.get(e);
+      }
+      getSceneByIndex(e) {
+        return this._scenes[e];
+      }
+      getSceneIndex(e) {
+        return this._scenes.findIndex((t) => t.id === e);
+      }
+    };
+  o(T, "Script");
+  var E = T;
+  return N(H);
+})();
