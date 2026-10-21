@@ -97,26 +97,26 @@ n.say("As they walk up the stairs they see him standing at the top staring at th
 p.say("What business do you have", { effect: "typewriter" });
 
 n.say("Zebede dodges the question and runs at paxton", { effect: "typewriter" });
-n.say("[shake]Zebede tries to punch paxton but paxton grabs ahold of his arm and throws him to the ground", { effect: "typewriter" });
-n.say("Paxton steps on his back and starts to pull his arms up breaking them", { effect: "typewriter" });
+n.say("Zebede tries to punch paxton but paxton grabs ahold of his arm and throws him to the ground", { effect: "typewriter" });
+n.say("[shake]Paxton steps on his back and starts to pull his arms up breaking them", { effect: "typewriter" });
 
-z.say("COME HELP ME AXL", { effect: "typewriter" });
+z.say("[shake]COME HELP ME AXL", { effect: "typewriter" });
 
-n.say("[shake]Axl runs up and punches paxton in the face and grabbing zebede in the process", { effect: "typewriter" });
+n.say("Axl runs up and punches paxton in the face and grabbing zebede in the process", { effect: "typewriter" });
 
-a.say("stop being so reckless", { effect: "typewriter" });
+a.say("[shake]stop being so reckless", { effect: "typewriter" });
 
 n.say("Zebede ignores axl and goes in for another punch and misses", { effect: "typewriter" });
 n.say("Axl decides to run behind them and try to hit paxton in the back", { effect: "typewriter" });
 n.say("Paxton turns around but sees no one as axl run in front instead", { effect: "typewriter" });
-n.say("[shake]Before he can react axl manages to punch paxton in the face", { effect: "typewriter" });
-n.say("Paxton gets sent through a wall and starts to walk towards the 2", { effect: "typewriter" });
+n.say("Before he can react axl manages to punch paxton in the face", { effect: "typewriter" });
+n.say("[shake]Paxton gets sent through a wall and starts to walk towards the 2", { effect: "typewriter" });
 n.say("Zebedee charges at Paxton while Axl tries to go behind him to hit Paxton from both sides", { effect: "typewriter" });
 n.say("Paxton stops moving, closes his eyes, and holds his hands out", { effect: "typewriter" });
 n.say("Axl and Zebede begin to close in on Paxton, but as soon as they get close Paxton opens his eyes and creates black voids around him", {
   effect: "typewriter",
 });
-n.say("Axl and Zebede stop right before they fall into the voids", { effect: "typewriter" });
+n.say("[blackflash]Axl and Zebede stop right before they fall into the voids", { effect: "typewriter" });
 
 a.say("What is that?!", { effect: "typewriter" });
 
@@ -132,7 +132,7 @@ script.addScene(scene3);
 
 scene3.add(n);
 
-n.say("WHY DO I SIT NEXT TO LANDON AND COLLIN");
+n.say("[shake]WHY DO I SIT NEXT TO LANDON AND COLLIN");
 
 script.addScene(scene4);
 
@@ -167,7 +167,7 @@ p.say("do you think you can get away", { effect: "typewriter" });
 
 n.say("Paxton puts his arm up summoning a black void as big as the entire building on the road", { effect: "typewriter" });
 
-n.say("Zebede looks up in terror", { effect: "typewriter" });
+n.say("[blackflash]Zebede looks up in terror", { effect: "typewriter" });
 
 z.say("h-h-h-he-help me", { effect: "typewriter" });
 
@@ -186,9 +186,9 @@ p.say("hahaa you think you can stop me you dont have any idea what I am, and you
 j.say("are you sure about that", { effect: "typewriter" });
 
 n.say("Jackson snaps", { effect: "typewriter" });
-n.say("[flash]Paxton eyes light up as he sees a bright light grow fast", { effect: "typewriter" });
+n.say("Paxton eyes light up as he sees a bright light grow fast", { effect: "typewriter" });
 
-j.say("Its time...for you to d#e", { effect: "typewriter" });
+j.say("[flash]Its time...for you to d#e", { effect: "typewriter" });
 
 script.addScene(scene6);
 
@@ -218,7 +218,7 @@ scene7.add(s);
 
 n.say("The explosion from jacksons ability makes paxtons arm completely burned Paxton coughs and starts hyperventilating", { effect: "typewriter" });
 
-n.say("Your going to be a problem", { effect: "typewriter" });
+n.say("[shake]Your going to be a problem", { effect: "typewriter" });
 n.say("I can't win by myself but I'm not alone", { effect: "typewriter" });
 
 j.say("then who's with you?", { effect: "typewriter" });
@@ -255,25 +255,25 @@ s.say("No Im human", { effect: "typewriter" });
 
 n.say("Jackson thinks “s### my restriction!”", { effect: "typewriter" });
 n.say("Smith Jones runs up and punches him in his stomach as hard as possible", { effect: "typewriter" });
-n.say("Jackson coughs up blood and gets sent through 2 buildings", { effect: "typewriter" });
+n.say("[shake]Jackson coughs up blood and gets sent through 2 buildings", { effect: "typewriter" });
 
-p.say("you know you shouldn't stand still in a fight", { effect: "typewriter" });
+p.say("[shake]you know you shouldn't stand still in a fight", { effect: "typewriter" });
 
 n.say("Smith Jones throws a knife at jackson.", { effect: "typewriter" });
-n.say("jackson tries to dodge but instead he switches locations with the knife", { effect: "typewriter" });
+n.say("[shake]jackson tries to dodge but instead he switches locations with the knife", { effect: "typewriter" });
 n.say("jackson gets punched again but paxton appears behind him and kicks him in the back", { effect: "typewriter" });
-n.say("jacksons spine breaks and he manages to doge the next two hits jackson then snaps his fingers", { effect: "typewriter" });
-n.say("Smith Jones switches locations with a passerby k#lling the innocent person", { effect: "typewriter" });
-n.say("paxton barely dodges but gets slightly burnt", { effect: "typewriter" });
-n.say("jackson then snaps 40 times in a single second", { effect: "typewriter" });
-n.say("paxton gets burnt badly", { effect: "typewriter" });
-n.say("Smith jones switches with a rock behind jackson with a katana in hand he stabs through jackson", { effect: "typewriter" });
+n.say("[shake]jacksons spine breaks and he manages to doge the next two hits jackson then snaps his fingers", { effect: "typewriter" });
+n.say("[shake]Smith Jones switches locations with a passerby k#lling the innocent person", { effect: "typewriter" });
+n.say("[shake]paxton barely dodges but gets slightly burnt", { effect: "typewriter" });
+n.say("[shake]jackson then snaps 40 times in a single second", { effect: "typewriter" });
+n.say("[shake]paxton gets burnt badly", { effect: "typewriter" });
+n.say("[shake]Smith jones switches with a rock behind jackson with a katana in hand he stabs through jackson", { effect: "typewriter" });
 
-s.say("Give up.. You can't win", { effect: "typewriter" });
+s.say("[shake]Give up.. You can't win", { effect: "typewriter" });
 
 n.say("Paxton engulfs the whole world in black the only thing that Jackson can see is a black void and paxton", { effect: "typewriter" });
 
-p.say("this is.. The 4th dimension", { effect: "typewriter" });
+p.say("[blackflash]this is.. The 4th dimension", { effect: "typewriter" });
 
 const engine = new VNEngine({
   script: script,
@@ -287,6 +287,9 @@ const engine = new VNEngine({
       },
       flash(container) {
         container.classList.add("flash");
+      },
+      blackflash(container) {
+        container.classList.add("blackflash");
       },
     },
   },
