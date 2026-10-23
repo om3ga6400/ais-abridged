@@ -6,6 +6,6 @@ me - code
 
 yas - story
 
-jaundice - art?
+jake - art?
 
 https://github.com/Redmega/simple-visual-novel
